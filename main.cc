@@ -1,7 +1,14 @@
 #include "disjoint-union.hh"
 #include <iostream>
 #include <vector>
-#include "../sjo/lift.hh"
+
+#define LIFT(fname) \
+[] (auto&&... args) -> decltype (auto) \
+{ \
+	return fname (std::forward <decltype (args)> (args)...); \
+}
+
+
 
 void print_int (int i)
 {
@@ -53,8 +60,8 @@ void print (std::vector <int>&& v) {print_vec (std::move (v));}
 
 int main ()
 {
-	auto p = disjoint_union <int, std::vector <int> >::create <0> (1);
-	auto q = disjoint_union <int, std::vector <int> >::create <1> ({1, 2, 3});
+	auto p = sjo::disjoint_union <int, std::vector <int> >::create <0> (1);
+	auto q = sjo::disjoint_union <int, std::vector <int> >::create <1> ({1, 2, 3});
 	const auto r = q;
 
 	p.elim (print_int, LIFT (print_vec));
