@@ -93,6 +93,7 @@ namespace sjo {
 /// Function type erasure
 
 		template <typename F, typename T, typename R>
+		static inline
 		R (*erase_unary_lvalue_function ()) (void*, void*)
 		{
 			return [] (void* f, void* arg) -> R {
@@ -101,6 +102,7 @@ namespace sjo {
 		}
 
 		template <typename F, typename T, typename R>
+		static inline
 		R (*erase_unary_const_lvalue_function ()) (void*, const void*)
 		{
 			return [] (void* f, const void* arg) -> R {
@@ -109,6 +111,7 @@ namespace sjo {
 		}
 
 		template <typename F, typename T, typename R>
+		static inline
 		R (*erase_unary_rvalue_function ()) (void*, void*)
 		{
 			return [] (void* f, void* arg) -> R {
@@ -120,18 +123,21 @@ namespace sjo {
 /// Member function erasers
 
 		template <typename T>
+		static inline
 		void copy_constructor (void* to, const void* from)
 		{
 			new (to) T (*static_cast <const T*> (from));
 		}
 
 		template <typename T>
+		static inline
 		void move_constructor (void* to, void* from)
 		{
 			new (to) T (std::move (*static_cast <T*> (from)));
 		}
 
 		template <typename T>
+		static inline
 		void destructor (void* obj)
 		{
 			static_cast <T*> (obj)->~T ();
@@ -141,6 +147,7 @@ namespace sjo {
 /// Variadic expansion
 
 		template <typename T, typename... Pack>
+		static inline
 		T replicate (T t)
 		{
 			return std::move (t);
