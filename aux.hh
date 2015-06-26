@@ -27,9 +27,9 @@ namespace sjo {
 			if (even (a))
 			{
 				if (even (b))
-					return gcd_2 (a / 2, b);
-				else
 					return gcd_2 (a / 2, b / 2) * 2;
+				else
+					return gcd_2 (a / 2, b);
 			}
 			else
 			{
@@ -55,6 +55,16 @@ namespace sjo {
 			std::uintmax_t result = 1;
 			for (auto i : il)
 				result = lcm_2 (result, i);
+			return result;
+		}
+
+		static inline constexpr
+		std::uintmax_t max (std::initializer_list <std::uintmax_t> il)
+		{
+			std::uintmax_t result = 0;
+			for (auto i : il)
+				if (i > result)
+					result = i;
 			return result;
 		}
 

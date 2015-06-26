@@ -21,7 +21,7 @@ namespace sjo {
 	class disjoint_union
 	{
 		using storage_t = std::aligned_storage_t <
-			aux::lcm ({sizeof  (T)...}),
+			aux::max ({sizeof  (T)...}),
 			aux::lcm ({alignof (T)...})
 		>;
 
