@@ -1,6 +1,7 @@
 #include "disjoint-union.hh"
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #define LIFT(fname) \
 [] (auto&&... args) -> decltype (auto) \
@@ -58,6 +59,15 @@ void print (std::vector <int>&& v) {print_vec (std::move (v));}
 
 
 
+void test_move ()
+{
+	using u = sjo::disjoint_union <int, std::unique_ptr <int> >;
+
+	std::vector <u> v;
+	v.push_back (u::create <1> (std::make_unique <int> (42)));
+	v [0].elim (LIFT (print), [] (const auto& p) { print (*p); });
+}
+
 int main ()
 {
 	std::cout << "SIZE:" << std::endl;
@@ -92,4 +102,8 @@ int main ()
 	q.apply (LIFT (print));
 	r.apply (LIFT (print));
 	std::move (q).apply (LIFT (print));
+	std::cout << std::endl;
+
+	std::cout << "MOVEONLY:" << std::endl;
+	test_move ();
 }
